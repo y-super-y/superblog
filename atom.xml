@@ -1,19 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://github.com/y-super-y/superblog</id>
+    <id>https://github.com/y-super-y</id>
     <title>Gridea</title>
-    <updated>2020-11-21T07:51:39.087Z</updated>
+    <updated>2020-11-21T07:56:08.237Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://github.com/y-super-y/superblog"/>
-    <link rel="self" href="https://github.com/y-super-y/superblog/atom.xml"/>
+    <link rel="alternate" href="https://github.com/y-super-y"/>
+    <link rel="self" href="https://github.com/y-super-y/atom.xml"/>
     <subtitle>温故而知新</subtitle>
-    <logo>https://github.com/y-super-y/superblog/images/avatar.png</logo>
-    <icon>https://github.com/y-super-y/superblog/favicon.ico</icon>
+    <logo>https://github.com/y-super-y/images/avatar.png</logo>
+    <icon>https://github.com/y-super-y/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
     <entry>
+        <title type="html"><![CDATA[爬取虎牙直播同一时间内的所有直播间信息]]></title>
+        <id>https://github.com/y-super-y/post/pa-qu-hu-ya-zhi-bo-tong-yi-shi-jian-nei-de-suo-you-zhi-bo-jian-xin-xi/</id>
+        <link href="https://github.com/y-super-y/post/pa-qu-hu-ya-zhi-bo-tong-yi-shi-jian-nei-de-suo-you-zhi-bo-jian-xin-xi/">
+        </link>
+        <updated>2020-11-21T07:51:50.000Z</updated>
+        <content type="html"><![CDATA[<p>import requests<br>
+from openpyxl import Workbook<br>
+from bs4 import BeautifulSoup<br>
+from tqdm import tqdm</p>
+<p>class LiveSpider():<br>
+def super_spider(self):<br>
+headers = {<br>
+&quot;user-agent&quot;: &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) &quot;<br>
+&quot;AppleWebKit/537.36 (KHTML, like Gecko) &quot;<br>
+&quot;Chrome/85.0.4183.102 Safari/537.36&quot;,<br>
+&quot;x-requested-with&quot;: &quot;XMLHttpRequest&quot;<br>
+}<br>
+Response = requests.get(&quot;https://www.huya.com/g&quot;)<br>
+html = Response.text<br>
+soup = BeautifulSoup(html, &quot;html.parser&quot;)<br>
+for gameId in tqdm(range(1, len(soup.find_all(&quot;li&quot;)))):<br>
+worker = Workbook()<br>
+wk = worker.active<br>
+wk.append([&quot;直播类型&quot;, &quot;直播房间名&quot;, &quot;房间号&quot;, &quot;主播昵称&quot;, &quot;直播介绍&quot;, &quot;人流量&quot;])<br>
+params = {<br>
+&quot;m&quot;: &quot;LiveList&quot;,<br>
+&quot;do&quot;: &quot;getLiveListByPage&quot;,<br>
+&quot;gameId&quot;: gameId,<br>
+&quot;tagAll&quot;: &quot;0&quot;,<br>
+&quot;page&quot;: &quot;1&quot;<br>
+}</p>
+<pre><code>        response = requests.get(&quot;https://www.huya.com/cache.php&quot;, params=params, headers=headers)
+
+        for page in range(1, int(response.json()[&quot;data&quot;][&quot;totalPage&quot;]) + 1):
+            params[&quot;page&quot;] = str(page)
+            live_response = requests.get(&quot;https://www.huya.com/cache.php&quot;, params=params, headers=headers)
+            live_number = len(live_response.json()[&quot;data&quot;][&quot;datas&quot;])
+            for num in range(0, live_number):
+                live = live_response.json()[&quot;data&quot;][&quot;datas&quot;][num]
+                lst = [live[&quot;gameFullName&quot;], live[&quot;roomName&quot;], live[&quot;uid&quot;], live[&quot;nick&quot;], live[&quot;introduction&quot;],
+                       live[&quot;totalCount&quot;]]
+                try:
+                    wk.append(lst)
+                except:
+                    pass
+        worker.save(f&quot;huya_live_{gameId}.xlsx&quot;)
+</code></pre>
+<p>l = LiveSpider()<br>
+l.super_spider()</p>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://github.com/y-super-y/superblog/post/hello-gridea/</id>
-        <link href="https://github.com/y-super-y/superblog/post/hello-gridea/">
+        <id>https://github.com/y-super-y/post/hello-gridea/</id>
+        <link href="https://github.com/y-super-y/post/hello-gridea/">
         </link>
         <updated>2018-12-11T16:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
